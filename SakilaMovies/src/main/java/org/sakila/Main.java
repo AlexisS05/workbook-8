@@ -1,15 +1,19 @@
 package org.sakila;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.sakila.data.SakilaDAOMySQLImpl;
+import org.sakila.model.Actor;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        SakilaDAOMySQLImpl dataManager = new SakilaDAOMySQLImpl();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the first name of an actor: ");
         String firstname = scanner.nextLine();
@@ -18,8 +22,11 @@ public class Main {
 
         System.out.println("Please enter the last name of an actor:" );
         String lastname = scanner.nextLine();
+//
+//        List<Actor> actors = dataManager.getFirstNameActors(firstname);
+//        System.out.println(actors);
 
-        getActorFilms(firstname, lastname);
+        dataManager.insertActorToDB(firstname, lastname);
 
     }
 
@@ -75,7 +82,7 @@ public class Main {
         }
     }
 
-    private static BasicDataSource getSakilaDataSource() {
+    public static BasicDataSource getSakilaDataSource() {
         BasicDataSource dataSource;
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/sakila");
